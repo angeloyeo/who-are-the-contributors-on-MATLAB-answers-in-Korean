@@ -3,7 +3,7 @@
 %% Settings
 % Do you want to tweet?
 tweet = true;
-api_key = getenv('THINGTWEETAPIKEY'); % for GitHub Action
+% api_key = getenv('THINGTWEETAPIKEY'); % for GitHub Action
 % api_key = 'PutYourDownAPIKey';
 % Reporting period?
 % period = "Monthly";
@@ -13,11 +13,11 @@ period = "Weekly";
 switch period
     case "Monthly"
        howfar2check = calmonths(1);
-       baseURL = "https://jp.mathworks.com/matlabcentral/answers/contributors/" ...
+       baseURL = "https://kr.mathworks.com/matlabcentral/answers/contributors/" ...
         + "?filter=month";
     case "Weekly"
         howfar2check = calweeks(1);
-        baseURL = "https://jp.mathworks.com/matlabcentral/answers/contributors/" ...
+        baseURL = "https://kr.mathworks.com/matlabcentral/answers/contributors/" ...
         + "?filter=week";
     otherwise
         error("not correct period setting")
@@ -31,8 +31,8 @@ try
     page = 0;
     while checkdate > datetime - howfar2check
         page = page + 1;
-        xDoc = xmlread(['https://jp.mathworks.com/matlabcentral/answers' ...
-            '/questions?language=ja&format=atom&sort=updated+desc&status=answered' ...
+        xDoc = xmlread(['https://kr.mathworks.com/matlabcentral/answers' ...
+            '/questions?language=ko&format=atom&sort=updated+desc&status=answered' ...
             '&page=' num2str(page)]);
         % まず各投稿は <entry></entry>
         allListitems = xDoc.getElementsByTagName('entry');
@@ -153,26 +153,22 @@ dataset = table(ranks(idx),names(idx),'VariableNames',{'rank','nickname'})
 
 
 %% Tweet the results
-% 新しい投稿を Tweet
-% ThingTweet 設定
-tturl='https://api.thingspeak.com/apps/thingtweet/1/statuses/update';
-options = weboptions('MediaType','application/x-www-form-urlencoded');
-options.Timeout = 10;
 
 % status = "MATLAB の Q&A サイト：MATLAB Answers" + newline;
 % status = status + "日本語質問に回答する Top アカウント (" + period + ")" + newline + newline;
-status = "MATLAB Answers の日本語質問に回答する Top アカウント (" + period + ")" + newline + newline;
+status = "MATLAB Answers의 한국어 질문에 답해주신 분들 (" + period + ")" + newline + newline;
 
 for ii=1:min(height(dataset),5)
-    status = status + "- " + dataset.nickname(ii) + "さん" + newline;
+    status = status + "- " + dataset.nickname(ii) + "님" + newline;
 end
-status = status + newline + "ありがとうございます！" + newline;
-status = status + "詳細："  + baseURL;
+status = status + newline + "감사합니다！" + newline;
+status = status + "전체 보기："  + baseURL;
 disp(status);
 
 if tweet
     try
-        webwrite(tturl, 'api_key', api_key, 'status', status, options);
+        % webwrite(tturl, 'api_key', api_key, 'status', status, options);
+        py.tweetJPAnswers.tweetV2(status)
     catch ME
         disp(ME)
     end
