@@ -2,7 +2,7 @@
 page = 1; % 1ページ（50投稿分)だけチェック
 try
     % トップページの RSS を読み込み（日本語、投稿の新しい順表示）
-    xDoc = xmlread('https://kr.mathworks.com/matlabcentral/answers/questions?language=ko&format=atom&sort=asked+desc');
+    xDoc = xmlread('https://ww2.mathworks.cn/matlabcentral/answers/questions?format=atom&language=zh&sort=asked+desc');
     
     % まず各投稿は <entry></entry> 
     allListitems = xDoc.getElementsByTagName('entry');
@@ -46,7 +46,7 @@ catch ME
     return;
 end
 
-latestID = readmatrix('latestID.txt');
+latestID = readmatrix('latestID_CN.txt');
 
 % これまでに検知した最も大きいIDより大きいIDがあれば
 % 新規投稿として Tweet
@@ -62,7 +62,7 @@ else
     FlagLatest = true;
     [LatestID_JP,idx] = max(entryID); % latest ID
     % save
-    writematrix(LatestID_JP,'latestID.txt')
+    writematrix(LatestID_JP,'latestID_CN.txt')
 
     % 新しい投稿を Tweet  
     for ii=1:sum(newID)
@@ -70,16 +70,16 @@ else
         thisTitle = title(idxNew(ii));
         thisURL = url(idxNew(ii));
         % 投稿文：～さんからの質問「質問タイトル」-> URL
-        disp([string(ii) + "번째 포스팅"]);
+        disp([string(ii) + "th posting"]);
         
         if thisAuthor == "MathWorks Support Team"
-            status = thisAuthor + " 님으로부터의 힌트:「" + thisTitle + "」 "  + thisURL;
+            status = "从" + thisAuthor + "的新提示 :「" + thisTitle + "」 "  + thisURL;
         else
-            status = thisAuthor + " 님으로부터의 질문:「" + thisTitle + "」 "  + thisURL;
+            status = "从" + thisAuthor + "的新问题 :「" + thisTitle + "」 "  + thisURL;
         end
         disp(status);
         try
-            py.tweetKRAnswers.tweetV2(status)
+            py.tweetCNAnswers.tweetV2(status)
         catch ME
             disp(ME)
             FailTwitterPost = true;

@@ -31,8 +31,8 @@ try
     page = 0;
     while checkdate > datetime - howfar2check
         page = page + 1;
-        xDoc = xmlread(['https://kr.mathworks.com/matlabcentral/answers' ...
-            '/questions?language=ko&format=atom&sort=updated+desc&status=answered' ...
+            xDoc = xmlread(['https://ww2.mathworks.cn/matlabcentral/answers' ...
+            '/questions?language=zh&format=atom&sort=updated+desc&status=answered' ...
             '&page=' num2str(page)]);
         % まず各投稿は <entry></entry>
         allListitems = xDoc.getElementsByTagName('entry');
@@ -156,19 +156,19 @@ dataset = table(ranks(idx),names(idx),'VariableNames',{'rank','nickname'})
 
 % status = "MATLAB の Q&A サイト：MATLAB Answers" + newline;
 % status = status + "日本語質問に回答する Top アカウント (" + period + ")" + newline + newline;
-status = "MATLAB Answers의 한국어 질문에 답해주신 분들 (" + period + ")" + newline + newline;
+status = "对中文MATLAB Answers给回答的人(每周排名)" + newline + newline;
 
 for ii=1:min(height(dataset),5)
-    status = status + "- " + dataset.nickname(ii) + "님" + newline;
+    status = status + "- " + dataset.nickname(ii) + newline;
 end
-status = status + newline + "감사합니다！" + newline;
-status = status + "전체 보기："  + baseURL;
+status = status + newline + "谢谢！" + newline;
+status = status + "看全部："  + baseURL;
 disp(status);
 
 if tweet
     try
         % webwrite(tturl, 'api_key', api_key, 'status', status, options);
-        py.tweetKRAnswers.tweetV2(status)
+        py.tweetCNAnswers.tweetV2(status)
     catch ME
         disp(ME)
     end

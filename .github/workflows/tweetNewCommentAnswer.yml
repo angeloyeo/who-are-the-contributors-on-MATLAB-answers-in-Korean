@@ -31,7 +31,7 @@ jobs:
         uses: matlab-actions/setup-matlab@v1
         with:
           release: 'R2023a'
-      - name: Run script and tweet
+      - name: Run script and tweet KR
         uses: matlab-actions/run-command@v1
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN}}
@@ -40,3 +40,22 @@ jobs:
           API_KEY_SECRET: ${{ secrets.API_KEY_SECRET}}  
         with:
           command: tweetNewCommentAnswer
+      - name: Run script and tweet DE
+        uses: matlab-actions/run-command@v1
+        env:
+          ACCESS_TOKEN_DE: ${{ secrets.ACCESS_TOKEN_DE}}
+          ACCESS_TOKEN_SECRET_DE: ${{ secrets.ACCESS_TOKEN_SECRET_DE}}
+          API_KEY_DE: ${{ secrets.API_KEY_DE}}
+          API_KEY_SECRET_DE: ${{ secrets.API_KEY_SECRET_DE}}  
+        with:
+          command: tweetNewCommentAnswer_DE
+      - name: Run script and tweet CN
+        uses: matlab-actions/run-command@v1
+        env:
+          ACCESS_TOKEN_CN: ${{ secrets.ACCESS_TOKEN_CN}}
+          ACCESS_TOKEN_SECRET_CN: ${{ secrets.ACCESS_TOKEN_SECRET_CN}}
+          API_KEY_CN: ${{ secrets.API_KEY_CN}}
+          API_KEY_SECRET_CN: ${{ secrets.API_KEY_SECRET_CN}}  
+        with:
+          command: tweetNewCommentAnswer_CN
+
