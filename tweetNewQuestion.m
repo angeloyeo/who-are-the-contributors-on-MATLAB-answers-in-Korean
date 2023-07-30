@@ -2,7 +2,7 @@
 page = 1; % 1ページ（50投稿分)だけチェック
 try
     % トップページの RSS を読み込み（日本語、投稿の新しい順表示）
-    xDoc = xmlread('https://jp.mathworks.com/matlabcentral/answers/questions?language=ja&format=atom&sort=asked+desc');
+    xDoc = xmlread('https://kr.mathworks.com/matlabcentral/answers/questions?language=ko&format=atom&sort=asked+desc');
     
     % まず各投稿は <entry></entry> 
     allListitems = xDoc.getElementsByTagName('entry');
@@ -70,12 +70,12 @@ else
         thisTitle = title(idxNew(ii));
         thisURL = url(idxNew(ii));
         % 投稿文：～さんからの質問「質問タイトル」-> URL
-        disp([string(ii) + "個目の投稿"]);
+        disp([string(ii) + "번째 포스팅"]);
         
         if thisAuthor == "MathWorks Support Team"
-            status = thisAuthor + " からのヒント:「" + thisTitle + "」 -> "  + thisURL + "?s_eid=PSM_29405";
+            status = thisAuthor + " 님으로부터의 힌트:「" + thisTitle + "」 "  + thisURL;
         else
-            status = thisAuthor + " さんからの質問:「" + thisTitle + "」 -> "  + thisURL + "?s_eid=PSM_29405";
+            status = thisAuthor + " 님으로부터의 질문:「" + thisTitle + "」 "  + thisURL;
         end
         disp(status);
         try

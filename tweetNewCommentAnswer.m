@@ -1,6 +1,6 @@
 
 try
-    xDoc = xmlread('https://jp.mathworks.com/matlabcentral/answers/questions?language=ja&format=atom&sort=updated+desc&status=answered');
+    xDoc = xmlread('https://kr.mathworks.com/matlabcentral/answers/questions?language=ko&format=atom&sort=updated+desc&status=answered');
     % まず各投稿は <entry></entry>
     allListitems = xDoc.getElementsByTagName('entry');
     
@@ -79,8 +79,7 @@ for ii=1:height(newitem_list)
     else
         
         % 投稿文
-        status = "コメント/回答が付いています。" + newline;
-        status = status + "「" + newitem_list.titles(ii) + "」 -> ";
+        status = "코멘트/답변이 달렸습니다." + newline + "「" + thisTitle + "」 -> "  + thisURL;
         status = status + newitem_list.urls(ii)  + "?s_eid=PSM_29405" + newline;
         status = status + "#MATLABAnswers";
         
