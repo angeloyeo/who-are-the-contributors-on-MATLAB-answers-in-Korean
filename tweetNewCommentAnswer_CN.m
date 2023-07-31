@@ -79,7 +79,7 @@ for ii=1:height(newitem_list)
     else
         
         % 投稿文
-        status = "有了新的评论或回答在" + newline + "「" + thisTitle + "」 -> "  + thisURL;
+        status = "有了新的评论或回答在" + newline + "「" + newitem_list.titles(ii) + "」 -> ";
         status = status + newitem_list.urls(ii)  + "?s_eid=PSM_29405" + newline;
         status = status + "#MATLABAnswers";
         
